@@ -23,7 +23,9 @@ func (l *StandardLogger) Fatalf(format string, v ...interface{}) {
 	//log.Fatalf(format, v...)
 }
 func (l *StandardLogger) Fatalln(v ...interface{}) {
-	log.Fatalln(v...)
+	log.Output(3, fmt.Sprintln(v...))
+	os.Exit(1)
+	//log.Fatalln(v...)
 }
 func (l *StandardLogger) Panic(v ...interface{}) {
 	log.Panic(v...)
