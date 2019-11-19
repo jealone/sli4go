@@ -1,12 +1,10 @@
 package sli4go
 
-import "sync"
+import (
+	"sync"
+)
 
-var defaultLogger LogInterface
-
-func init() {
-	defaultLogger = &StandardLogger{}
-}
+var defaultLogger = initLogger(&StandardLogger{})
 
 type Logger struct {
 	initOnce      sync.Once
@@ -23,12 +21,12 @@ func (l *Logger) init() {
 }
 
 // GetLogger 获取 Logger 实例
-func GetLogger() LogInterface {
+func GetLogger() *Logger {
 	return defaultLogger
 }
 
 // InitLogger 初始化 Logger
-func InitLogger(logger interface{}) LogInterface {
+func InitLogger(logger interface{}) *Logger {
 
 	l := initLogger(logger)
 
