@@ -1,8 +1,10 @@
 package sli4go
 
 import (
+	"fmt"
 	"io"
 	"log"
+	"os"
 )
 
 type StandardLogger struct {
@@ -16,7 +18,9 @@ func (l *StandardLogger) Fatal(v ...interface{}) {
 	log.Fatal(v...)
 }
 func (l *StandardLogger) Fatalf(format string, v ...interface{}) {
-	log.Fatalf(format, v...)
+	log.Output(3, fmt.Sprintf(format, v...))
+	os.Exit(1)
+	//log.Fatalf(format, v...)
 }
 func (l *StandardLogger) Fatalln(v ...interface{}) {
 	log.Fatalln(v...)
