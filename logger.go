@@ -1,6 +1,7 @@
 package sli4go
 
 import (
+	"log"
 	"sync"
 )
 
@@ -16,7 +17,7 @@ type Logger struct {
 
 func (l *Logger) init() {
 	l.initOnce.Do(func() {
-		defaultLogger.Infoln("sli4go initialization ...")
+		log.Panicln("sli4go initialization ...")
 	})
 }
 
