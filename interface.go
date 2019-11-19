@@ -22,16 +22,6 @@ type InstantLog interface {
 	Panic(...interface{})
 }
 
-//type FieldsLog interface {
-//	Trace(InstantLog, ...interface{})
-//	Debug(InstantLog, ...interface{})
-//	Info(InstantLog, ...interface{})
-//	Warn(InstantLog, ...interface{})
-//	Error(InstantLog, ...interface{})
-//	Fatal(InstantLog, ...interface{})
-//	Panic(InstantLog, ...interface{})
-//}
-
 type FormatLog interface {
 	Tracef(string, ...interface{})
 	Debugf(string, ...interface{})

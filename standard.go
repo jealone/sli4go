@@ -1,10 +1,16 @@
 package sli4go
 
 import (
+	"io"
 	"log"
 )
 
-type StandardLogger struct{}
+type StandardLogger struct {
+}
+
+func (l *StandardLogger) Writer() io.Writer {
+	return log.Writer()
+}
 
 func (l *StandardLogger) Fatal(v ...interface{}) {
 	log.Fatal(v...)
