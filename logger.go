@@ -17,7 +17,7 @@ type Logger struct {
 
 func (l *Logger) init() {
 	l.initOnce.Do(func() {
-		log.Panicln("sli4go initialization ...")
+		log.Println("sli4go initialization ...")
 	})
 }
 
