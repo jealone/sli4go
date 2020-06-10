@@ -12,6 +12,10 @@ var (
 	initOnce   sync.Once
 )
 
+func init() {
+	defaultLog = initLogger(&StandardLogger{})
+}
+
 type Log struct {
 	initOnce      sync.Once
 	printLogger   PrintLogger
