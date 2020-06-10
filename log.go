@@ -74,3 +74,7 @@ func Errorf(format string, v ...interface{}) {
 func Errorln(v ...interface{}) {
 	defaultLog.Errorln(v...)
 }
+
+func Flush() error {
+	return defaultLog.Flush()
+}

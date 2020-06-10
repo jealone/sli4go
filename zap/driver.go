@@ -13,6 +13,10 @@ type wrapperSugar struct {
 	*zap.SugaredLogger
 }
 
+func (l *wrapperSugar) Flush() error {
+	return l.Sync()
+}
+
 func (l *wrapperSugar) Trace(v ...interface{}) {
 	l.Debug(v...)
 }

@@ -104,3 +104,7 @@ func (l *StandardLogger) Errorf(format string, v ...interface{}) {
 func (l *StandardLogger) Errorln(v ...interface{}) {
 	log.Output(calldepth, fmt.Sprintln(v...))
 }
+
+func (l *StandardLogger) Flush() error {
+	return nil
+}

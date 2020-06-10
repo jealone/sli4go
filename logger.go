@@ -18,6 +18,7 @@ type Log struct {
 	instantLogger InstantLogger
 	formatLogger  FormatLogger
 	lineLogger    LineLogger
+	flusher       Flusher
 }
 
 func (l *Log) init() {
@@ -69,6 +70,11 @@ func initLogger(log interface{}) *Log {
 
 	if logger, ok := log.(LineLogger); ok {
 		l.lineLogger = logger
+		l.init()
+	}
+
+	if logger, ok := log.(Flusher); ok {
+		l.flusher = logger
 		l.init()
 	}
 
@@ -148,4 +154,8 @@ func (l *Log) Errorf(format string, v ...interface{}) {
 }
 func (l *Log) Errorln(v ...interface{}) {
 	l.lineLogger.Errorln(v...)
+}
+
+func (l *Log) Flush() error {
+	return l.flusher.Flush()
 }

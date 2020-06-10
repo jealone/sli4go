@@ -6,6 +6,10 @@ type Logger interface {
 	LineLogger
 }
 
+type Flusher interface {
+	Flush() error
+}
+
 type PrintLogger interface {
 	Print(...interface{})
 	Printf(string, ...interface{})
