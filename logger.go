@@ -8,13 +8,9 @@ import (
 //var defaultLogger = initLogger(&StandardLogger{})
 
 var (
-	defaultLog *Log
+	defaultLog *Log = initLogger(&StandardLogger{})
 	initOnce   sync.Once
 )
-
-func init() {
-	defaultLog = initLogger(&StandardLogger{})
-}
 
 type Log struct {
 	initOnce      sync.Once
