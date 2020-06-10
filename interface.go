@@ -1,18 +1,18 @@
 package sli4go
 
-type LogInterface interface {
-	InstantLog
-	FormatLog
-	LineLog
+type Logger interface {
+	InstantLogger
+	FormatLogger
+	LineLogger
 }
 
-type PrintLog interface {
+type PrintLogger interface {
 	Print(...interface{})
 	Printf(string, ...interface{})
 	Println(...interface{})
 }
 
-type InstantLog interface {
+type InstantLogger interface {
 	Trace(...interface{})
 	Debug(...interface{})
 	Info(...interface{})
@@ -22,7 +22,7 @@ type InstantLog interface {
 	Panic(...interface{})
 }
 
-type FormatLog interface {
+type FormatLogger interface {
 	Tracef(string, ...interface{})
 	Debugf(string, ...interface{})
 	Infof(string, ...interface{})
@@ -32,7 +32,7 @@ type FormatLog interface {
 	Panicf(string, ...interface{})
 }
 
-type LineLog interface {
+type LineLogger interface {
 	Traceln(...interface{})
 	Debugln(...interface{})
 	Infoln(...interface{})

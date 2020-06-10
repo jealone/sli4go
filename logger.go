@@ -5,59 +5,69 @@ import (
 	"sync"
 )
 
-var defaultLogger = initLogger(&StandardLogger{})
+//var defaultLogger = initLogger(&StandardLogger{})
 
-type Logger struct {
+var (
+	defaultLog *Log
+	initOnce   sync.Once
+)
+
+type Log struct {
 	initOnce      sync.Once
-	printLogger   PrintLog
-	instantLogger InstantLog
-	formatLogger  FormatLog
-	lineLogger    LineLog
+	printLogger   PrintLogger
+	instantLogger InstantLogger
+	formatLogger  FormatLogger
+	lineLogger    LineLogger
 }
 
-func (l *Logger) init() {
+func (l *Log) init() {
 	l.initOnce.Do(func() {
 		log.Println("sli4go initialization ...")
 	})
 }
 
-// GetLogger 获取 Logger 实例
-func GetLogger() *Logger {
-	return defaultLogger
+// GetLogger 获取 Log 实例
+func GetLogger() *Log {
+	initOnce.Do(func() {
+		log.Fatalln("logger must initialize for sli4go first")
+	})
+	return defaultLog
 }
 
-// InitLogger 初始化 Logger
-func InitLogger(logger interface{}) *Logger {
+// InitLogger 初始化 Log
+func InitLogger(logger interface{}) *Log {
 
-	l := initLogger(logger)
+	initOnce.Do(func() {
+		l := initLogger(logger)
 
-	l.initOnce.Do(func() {
-		defaultLogger.Fatalln("logger type for initialization sli4go didn't support")
+		l.initOnce.Do(func() {
+			log.Fatalln("logger type for initialization sli4go didn't support")
+		})
+
+		defaultLog = l
 	})
 
-	defaultLogger = l
-
-	return l
+	return defaultLog
 }
 
-func initLogger(log interface{}) *Logger {
-	var l Logger
-	if logger, ok := log.(PrintLog); ok {
+func initLogger(log interface{}) *Log {
+	var l Log
+	if logger, ok := log.(PrintLogger); ok {
 		l.printLogger = logger
 		l.init()
 	}
 
-	if logger, ok := log.(InstantLog); ok {
+	if logger, ok := log.(InstantLogger); ok {
 		l.instantLogger = logger
 		l.init()
 	}
 
-	if logger, ok := log.(FormatLog); ok {
+	if logger, ok := log.(FormatLogger); ok {
 		l.formatLogger = logger
 		l.init()
 	}
 
-	if logger, ok := log.(LineLog); ok {
+	if logger, ok := log.(LineLogger); ok {
 		l.lineLogger = logger
 		l.init()
 	}
@@ -65,77 +75,77 @@ func initLogger(log interface{}) *Logger {
 	return &l
 }
 
-func (l *Logger) Fatal(v ...interface{}) {
+func (l *Log) Fatal(v ...interface{}) {
 	l.instantLogger.Fatal(v...)
 }
-func (l *Logger) Fatalf(format string, v ...interface{}) {
+func (l *Log) Fatalf(format string, v ...interface{}) {
 	l.formatLogger.Fatalf(format, v...)
 }
-func (l *Logger) Fatalln(v ...interface{}) {
+func (l *Log) Fatalln(v ...interface{}) {
 	l.lineLogger.Fatalln(v...)
 }
-func (l *Logger) Panic(v ...interface{}) {
+func (l *Log) Panic(v ...interface{}) {
 	l.instantLogger.Panic(v...)
 }
-func (l *Logger) Panicf(format string, v ...interface{}) {
+func (l *Log) Panicf(format string, v ...interface{}) {
 	l.formatLogger.Panicf(format, v...)
 }
-func (l *Logger) Panicln(v ...interface{}) {
+func (l *Log) Panicln(v ...interface{}) {
 	l.lineLogger.Panicln(v...)
 }
 
-func (l *Logger) Print(v ...interface{}) {
+func (l *Log) Print(v ...interface{}) {
 	l.printLogger.Print(v...)
 }
-func (l *Logger) Printf(format string, v ...interface{}) {
+func (l *Log) Printf(format string, v ...interface{}) {
 	l.printLogger.Printf(format, v...)
 }
-func (l *Logger) Println(v ...interface{}) {
+func (l *Log) Println(v ...interface{}) {
 	l.printLogger.Println(v...)
 }
 
-func (l *Logger) Trace(v ...interface{}) {
+func (l *Log) Trace(v ...interface{}) {
 	l.instantLogger.Trace(v...)
 }
-func (l *Logger) Tracef(format string, v ...interface{}) {
+func (l *Log) Tracef(format string, v ...interface{}) {
 	l.formatLogger.Tracef(format, v...)
 }
-func (l *Logger) Traceln(v ...interface{}) {
+func (l *Log) Traceln(v ...interface{}) {
 	l.lineLogger.Traceln(v...)
 }
-func (l *Logger) Debug(v ...interface{}) {
+func (l *Log) Debug(v ...interface{}) {
 	l.instantLogger.Debug(v...)
 }
-func (l *Logger) Debugf(format string, v ...interface{}) {
+func (l *Log) Debugf(format string, v ...interface{}) {
 	l.formatLogger.Debugf(format, v...)
 }
-func (l *Logger) Debugln(v ...interface{}) {
+func (l *Log) Debugln(v ...interface{}) {
 	l.lineLogger.Debugln(v...)
 }
-func (l *Logger) Info(v ...interface{}) {
+func (l *Log) Info(v ...interface{}) {
 	l.instantLogger.Info(v...)
 }
-func (l *Logger) Infof(format string, v ...interface{}) {
+func (l *Log) Infof(format string, v ...interface{}) {
 	l.formatLogger.Infof(format, v...)
 }
-func (l *Logger) Infoln(v ...interface{}) {
+func (l *Log) Infoln(v ...interface{}) {
 	l.lineLogger.Infoln(v...)
 }
-func (l *Logger) Warn(v ...interface{}) {
+func (l *Log) Warn(v ...interface{}) {
 	l.instantLogger.Warn(v...)
 }
-func (l *Logger) Warnf(format string, v ...interface{}) {
+func (l *Log) Warnf(format string, v ...interface{}) {
 	l.formatLogger.Warnf(format, v...)
 }
-func (l *Logger) Warnln(v ...interface{}) {
+func (l *Log) Warnln(v ...interface{}) {
 	l.lineLogger.Warnln(v...)
 }
-func (l *Logger) Error(v ...interface{}) {
+func (l *Log) Error(v ...interface{}) {
 	l.instantLogger.Error(v...)
 }
-func (l *Logger) Errorf(format string, v ...interface{}) {
+func (l *Log) Errorf(format string, v ...interface{}) {
 	l.formatLogger.Errorf(format, v...)
 }
-func (l *Logger) Errorln(v ...interface{}) {
+func (l *Log) Errorln(v ...interface{}) {
 	l.lineLogger.Errorln(v...)
 }
