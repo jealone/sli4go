@@ -6,6 +6,17 @@ import (
 	"os"
 )
 
+func stdlog() *Log {
+	l := &StandardLogger{}
+	return &Log{
+		printLogger:   l,
+		instantLogger: l,
+		formatLogger:  l,
+		lineLogger:    l,
+		flusher:       l,
+	}
+}
+
 type StandardLogger struct {
 }
 

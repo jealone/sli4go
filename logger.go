@@ -5,10 +5,8 @@ import (
 	"sync"
 )
 
-//var defaultLogger = initLogger(&StandardLogger{})
-
 var (
-	defaultLog *Log = initLogger(&StandardLogger{})
+	defaultLog *Log = stdlog()
 	initOnce   sync.Once
 )
 
