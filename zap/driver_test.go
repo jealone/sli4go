@@ -4,8 +4,16 @@ import (
 	"testing"
 
 	"github.com/jealone/sli4go"
+	"go.uber.org/zap"
 )
 
 func TestZap(t *testing.T) {
-	sli4go.GetLogger().Info("test zap log")
+	logger, err := zap.NewProduction()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	registerZap(logger)
+	sli4go.Info("test zap log")
 }

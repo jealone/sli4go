@@ -1,21 +1,12 @@
 package zap
 
 import (
-	"log"
-
 	"github.com/jealone/sli4go"
 	"go.uber.org/zap"
 )
 
-func init() {
-	logger, err := zap.NewProduction()
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
+func registerZap(logger *zap.Logger) {
 	sli4go.InitLogger(&wrapperSugar{logger.Sugar()})
-
 }
 
 type wrapperSugar struct {
