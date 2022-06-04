@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func stdlog() *Log {
+func Stdlog() *Log {
 	l := &StandardLogger{}
 	return &Log{
 		printLogger:   l,

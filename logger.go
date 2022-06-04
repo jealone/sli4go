@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	defaultLog *Log = stdlog()
+	defaultLog *Log = Stdlog()
 	initOnce   sync.Once
 )
 
@@ -37,6 +37,10 @@ func GetLogger() *Log {
 func InitLogger(logger interface{}) *Log {
 
 	initOnce.Do(func() {
+		if nil == logger {
+			log.Println("sli4go initialize stdout ...")
+			return
+		}
 		l := initLogger(logger)
 
 		l.initOnce.Do(func() {
